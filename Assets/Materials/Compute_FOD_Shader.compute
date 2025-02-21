@@ -1,0 +1,31 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+RWTexture2D<float4> _FogTexture;
+StructuredBuffer<float2> _Positions;
+StructuredBuffer<float> _Ranges;
+int _AgentCount;
+float2 _TextureSize;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint2 id : SV_DispatchThreadID)
+{
+    if (id.x >= _TextureSize.x || id.y >= _TextureSize.y) return;
+
+    float2 uv = id / _TextureSize;
+    float alpha = 1.0f;
+
+    for (int i = 0; i < _AgentCount; i++)
+    {
+        float2 pos = _Positions[i];
+        float range = _Ranges[i] / _TextureSize.x;
+        
+        float2 diff = uv - pos;
+        float dist = length(diff);
+        
+        float influence = smoothstep(range, range * 0.5, dist);  
+        alpha = min(alpha, influence);
+    }
+
+    _FogTexture[id] = float4(0, 0, 0, alpha);
+}
