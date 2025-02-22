@@ -132,6 +132,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
         Instantiate(lightBulb, transform.position, Quaternion.identity);
         
         Player_Steps.Instance.DeregisterEnemy(this);
+        GetComponent<FOD_Agent>().EndAgent();
         
         Destroy(gameObject);
     }

@@ -80,7 +80,7 @@ Shader "Custom/FOD_Mapping"
                 }
                 else if (intensity > threshold * 0.7)
                 {
-                    return fixed4(0, 0, 0, 0.5f); // Полупрозрачный
+                    return fixed4(0, 0, 0, 0.8f); // Полупрозрачный
                 }
                 
                 return lerp(fogColor, _FogColor, _FogColor.a);

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Void
+  m_Name: Void_2
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 51a9569e833eac64985721ceb9a27ad3, type: 3}
+  m_DefaultSprite: {fileID: -582277585, guid: 318ddcdcf7090da479b5c25802b4d9da, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules:
@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Sprites:
     - {fileID: 21300000, guid: 6576d84762c3f3c4a9f3fc4cb4ad9c51, type: 3}
     - {fileID: 116726125, guid: dd4b89bbdbb3f674f805af136bcd4c63, type: 3}
-    m_GameObject: {fileID: 545088137511263996, guid: 2aa65af92d4c10b4cb7c9d785d5b127b, type: 3}
+    m_GameObject: {fileID: 545088137511263996, guid: 857be2ebbb63b4642869799480e3dade, type: 3}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
     m_PerlinScale: 0.3

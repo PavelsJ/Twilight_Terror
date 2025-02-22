@@ -28,6 +28,13 @@ public class Grid_Manager : MonoBehaviour
     
     void Start()
     {
+        FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
+        if (manager != null)
+        {
+            manager.gameObject.SetActive(true);
+            manager.StartCoroutine(manager.EnableWithDelay(0.8f));
+        }
+        
         sectorPos = sectorPosParent.GetComponentsInChildren<Transform>()
             .Where(t => t != sectorPosParent)
             .ToList();
@@ -42,13 +49,6 @@ public class Grid_Manager : MonoBehaviour
     {
         if (!isActive)
         {
-            FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
-            if (manager != null)
-            {
-                manager.gameObject.SetActive(true);
-                manager.StartCoroutine(manager.EnableWithDelay(0.8f));
-            }
-
             StartCoroutine(MoveSectorsSimultaneously(index));
             isActive = true;
         }
