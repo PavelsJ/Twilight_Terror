@@ -11,8 +11,9 @@ public class Player_Movement : MonoBehaviour
     
     [Header("Player Settings")]
     public float speed = 5f; 
-
+    
     public bool isMoving = true; 
+    public bool isDisable  = false;
     public bool isDead = false; 
     
     public Transform movePoint;
@@ -27,6 +28,9 @@ public class Player_Movement : MonoBehaviour
     [Header("Trap Settings")]
     public float trapCooldown = 0.5f;
     private float trapTimer = 0f;
+    
+    [Header("Compounds")]
+    private SpriteRenderer spriteRenderer;
     
     private void Awake()
     {
@@ -43,7 +47,11 @@ public class Player_Movement : MonoBehaviour
     void Start()
     {
         movePoint.parent = null;
+        isDisable = true;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+   
 
     void Update()
     {
@@ -64,7 +72,7 @@ public class Player_Movement : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.A)) direction = Vector3.left;
                 else if (Input.GetKeyDown(KeyCode.D)) direction = Vector3.right;
                 
-                if (direction != Vector3.zero)
+                if (direction != Vector3.zero && !isDisable)
                 {
                     HandleMove(direction);
                 }
@@ -123,6 +131,7 @@ public class Player_Movement : MonoBehaviour
                     isDead = true;
 
                     StartCoroutine(FallToTheVoid());
+                   
                 }
             }
             else if (Physics2D.OverlapPoint(targetPosition, iceLayer))
@@ -163,6 +172,7 @@ public class Player_Movement : MonoBehaviour
         {
             Move(currentPosition + slideDirection);
             isDead = true;
+            
             StartCoroutine(FallToTheVoid());
         }
         else
@@ -184,13 +194,21 @@ public class Player_Movement : MonoBehaviour
         
         yield return new WaitForSeconds(0.2f);
         
-        FOD_Manager manager = GameObject.Find("Fog_Manager").GetComponent<FOD_Manager>();
+       
+        FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
+        
         if (manager != null)
         {
             manager.RemoveAgentsGradually();
         }
-        
+       
         gameObject.SetActive(false);
+    }
+    
+    public void MovePlayerTo(Vector2 newPos)
+    {
+        isDisable = false;
+        Move(newPos);
     }
     
     private void Move(Vector3 pos)
@@ -198,7 +216,17 @@ public class Player_Movement : MonoBehaviour
         movePoint.position =  pos;
         
         Vector3 direction = (pos - transform.position).normalized;
-        RotateArrow(direction);
+        
+        if (direction.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (direction.x < 0)
+        {
+           spriteRenderer.flipX = true; 
+        }
+        
+        // RotateArrow(direction);
     }
 
     private void RotateArrow(Vector3 dir)

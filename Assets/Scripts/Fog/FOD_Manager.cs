@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace FODMapping
 {
@@ -58,6 +59,15 @@ namespace FODMapping
             
             // EnableFOV(); // Включение обновления тумана по умолчанию
         }
+        
+        public IEnumerator EnableInstantly()
+        {
+            yield return new WaitForSeconds(0.1f);
+            EnableFOV();
+
+            OnFogInitialized?.Invoke();
+            IsFogInitialized = true;
+        }
 
         public IEnumerator EnableWithDelay(float delay)
         {
@@ -101,6 +111,8 @@ namespace FODMapping
 
         private void UpdateShaderValues()
         {
+            if(agents.Count < 1) return;
+            
             agentData.Clear();
             transparencies.Clear();
 
@@ -169,8 +181,12 @@ namespace FODMapping
             {
                 FOD_Agent agent = agents[0];
                 agent.EndAgent();
+                
                 yield return new WaitForSeconds(time);
             }
+            
+            Debug.Log("Game Over");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         
         public IEnumerator DisableWithDelay(float delay)
@@ -189,7 +205,7 @@ namespace FODMapping
 
             if (grid != null)
             {
-                grid.ChangePlayerPos();
+                grid.ChangeGridState();
             }
             
             DisableFOV();

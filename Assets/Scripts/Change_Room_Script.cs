@@ -22,7 +22,16 @@ public class Change_Room_Script : MonoBehaviour
             {
                 gridInteraction.OnActive(nextRoomIndex);
             }
+
+            StartCoroutine(Delay());
             isActive = true;
         }
+    }
+
+    private IEnumerator Delay()
+    {
+        Player_Movement.Instance.isDisable = true;
+        yield return new WaitForSeconds(0.2f);
+        Player_Movement.Instance.isDisable = false;
     }
 }

@@ -45,6 +45,7 @@ public class Player_Steps : MonoBehaviour
         {
             player = Player_Movement.Instance.transform;
         }
+        
         maxStepCount = stepCount;
         UpdateStepCountText();
     }
@@ -119,7 +120,8 @@ public class Player_Steps : MonoBehaviour
             
             if (playerLives <= 0)
             {
-                if(enemy != null) enemy.gameObject.SetActive(true);
+                ActivateCentipedeChase();
+                
                 stepCountText.text = "Light - 00, (00)";  
                 return;
             }
@@ -143,6 +145,11 @@ public class Player_Steps : MonoBehaviour
         {
             stepCountText.text = $"Light - {stepCount:00}, ({maxStepCount:00})";  
         }
+    }
+    
+    private void ActivateCentipedeChase()
+    {
+        if(enemy != null) enemy.gameObject.SetActive(true);
     }
 
     public void ActivateSpiderChase()

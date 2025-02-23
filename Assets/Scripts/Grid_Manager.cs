@@ -16,9 +16,13 @@ public class Grid_Manager : MonoBehaviour
     public Transform playerTargetPos;
     
     private List<Transform> sectorPos;
+    private Vector2 firstPos;
     
     private float transitionDuration = 1.5f;
+    
     private bool isActive = false;
+    private bool isStart = true;
+    
     private CinemachineVirtualCamera cinemachine;
 
     private void Awake()
@@ -29,10 +33,11 @@ public class Grid_Manager : MonoBehaviour
     void Start()
     {
         FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
+        
         if (manager != null)
         {
             manager.gameObject.SetActive(true);
-            manager.StartCoroutine(manager.EnableWithDelay(0.8f));
+            manager.StartCoroutine(manager.EnableInstantly());
         }
         
         sectorPos = sectorPosParent.GetComponentsInChildren<Transform>()
@@ -42,6 +47,17 @@ public class Grid_Manager : MonoBehaviour
         foreach (var sector in midSectors)
         {
             sector.gameObject.SetActive(false);
+        }
+
+        firstPos = new Vector2(0, 0);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.D) && isStart)
+        {
+            Player_Movement.Instance.MovePlayerTo(new Vector2(-4.5f, 1.5f));
+            isStart = false;
         }
     }
 
@@ -101,15 +117,23 @@ public class Grid_Manager : MonoBehaviour
         amplitude.m_AmplitudeGain = intensity;
     }
 
-    public void ChangePlayerPos()
+    public void ChangeGridState()
     {
         GameObject player = Player_Movement.Instance.gameObject;
+        
         if (player != null)
         {
             Player_Movement.Instance.movePoint.position = playerTargetPos.position;
             player.transform.position = playerTargetPos.position;
             
             player.SetActive((true));
+        }
+        
+        lastSector.position = firstPos;
+
+        foreach (var sector in midSectors)
+        {
+            sector.gameObject.SetActive(false);
         }
     }
 }

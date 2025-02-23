@@ -31,7 +31,7 @@ public class FOD_Agent : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!Application.isPlaying || manager == null) return;
+        if (manager == null) return;
         
         manager.AddAgent(this);
         if (manager.IsFogInitialized)
@@ -99,7 +99,11 @@ public class FOD_Agent : MonoBehaviour
         }
         
         sightRange = 0;
-        gameObject.SetActive(false);
+
+        if (!gameObject.CompareTag("Player"))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void ChangeRadiusValue(float newRadius)
