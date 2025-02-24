@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2705275335576604482}
   - component: {fileID: 7482973569102295559}
   - component: {fileID: 1379814578261662763}
+  - component: {fileID: 4730266873285055801}
   m_Layer: 0
   m_Name: Light_Switch
   m_TagString: Interactable
@@ -74,11 +75,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1535477347
+  m_SortingLayer: 2
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 277091f0382d9c1459098ff549d75bdc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 13682dad25c0dca43ad42af559528121, type: 3}
+  m_Color: {r: 0.4546984, g: 0.754717, b: 0.3809185, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,7 +88,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &7598569060346412674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contributeToFOV: 1
-  sightRange: 24
+  sightRange: 36
   sightTransparency: 1
   flickering: 1
   flickeringSpeed: 4
@@ -198,3 +199,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4730266873285055801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951744713209885593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a60c7749091100c4ba875b9ef0992d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0

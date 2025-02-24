@@ -120,6 +120,7 @@ public class Grid_Manager : MonoBehaviour
     public void ChangeGridState()
     {
         GameObject player = Player_Movement.Instance.gameObject;
+        Player_Steps.Instance.enemy.gameObject.SetActive(false);
         
         if (player != null)
         {

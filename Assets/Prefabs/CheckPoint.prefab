@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6181892950871069382}
   - component: {fileID: 8744668317625114128}
+  - component: {fileID: 367752185727781047}
+  - component: {fileID: 5864204861092446514}
   m_Layer: 0
   m_Name: CheckPoint
   m_TagString: Untagged
@@ -25,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6983732886807933011}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -70,9 +72,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1535477347
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 2f1c0ddeb9f04834b82159829df2bf51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,4 +85,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
+--- !u!114 &367752185727781047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6983732886807933011}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b975b573f27f85438698fff0c4e35e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contributeToFOV: 1
+  sightRange: 48
+  sightTransparency: 1
+  flickering: 1
+  flickeringSpeed: 4
+--- !u!114 &5864204861092446514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6983732886807933011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78559ee58517d0b4fa6c2f4c235def62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activationDistance: 1
