@@ -18,7 +18,7 @@ public class Grid_Manager : MonoBehaviour
     private List<Transform> sectorPos;
     private Vector2 firstPos;
     
-    private float transitionDuration = 1.5f;
+    private float transitionDuration = 3f;
     
     private bool isActive = false;
     private bool isStart = true;

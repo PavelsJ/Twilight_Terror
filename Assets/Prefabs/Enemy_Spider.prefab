@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1066597862321684997}
   m_Layer: 10
   m_Name: Enemy_Spider
-  m_TagString: Interactable
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   player: {fileID: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
   boxLayer:
     serializedVersion: 2
     m_Bits: 64
