@@ -194,7 +194,6 @@ public class Player_Movement : MonoBehaviour
         
         yield return new WaitForSeconds(0.2f);
         
-       
         FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
         
         if (manager != null)

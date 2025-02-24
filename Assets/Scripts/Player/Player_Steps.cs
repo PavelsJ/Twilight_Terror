@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using FODMapping;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player_Steps : MonoBehaviour
 {
@@ -21,6 +20,9 @@ public class Player_Steps : MonoBehaviour
     [Header("UI")] 
     public int stepCount = 20;
     public int playerLives = 2;
+    
+    public Image healthSlot;
+    public Sprite damagedHealthSlot;
     
     private int maxStepCount;
     public TextMeshProUGUI stepCountText;
@@ -114,6 +116,8 @@ public class Player_Steps : MonoBehaviour
         {
             playerLives--;
             
+            healthSlot.sprite = damagedHealthSlot;
+            
             FOD_Agent agent = player.GetComponent<FOD_Agent>();
             float radius = agent.sightRange;
             agent.ChangeRadiusValue(radius - 8);
@@ -121,7 +125,7 @@ public class Player_Steps : MonoBehaviour
             if (playerLives <= 0)
             {
                 ActivateCentipedeChase();
-                
+                healthSlot.enabled = false;
                 stepCountText.text = "Light - 00, (00)";  
                 return;
             }

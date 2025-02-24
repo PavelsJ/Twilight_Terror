@@ -20,6 +20,8 @@ public class FOD_Agent : MonoBehaviour
     private bool increasing = false;
     
     private FOD_Manager manager;
+    private Coroutine updateRoutine;
+    private Action fogInitCallback;
 
     private void Awake()
     {
@@ -34,29 +36,46 @@ public class FOD_Agent : MonoBehaviour
         if (manager == null) return;
         
         manager.AddAgent(this);
+        
         if (manager.IsFogInitialized)
+        {
             StartAgent();
+        }
         else
-            manager.OnFogInitialized += () => StartAgent();
+        {
+            fogInitCallback = () => StartAgent();
+            manager.OnFogInitialized += fogInitCallback;
+        }
     }
     
     private void OnDisable()
     {
         if (manager != null)
         {
-            manager.OnFogInitialized += () => StartAgent();
+            if (fogInitCallback != null)
+            {
+                manager.OnFogInitialized -= fogInitCallback;
+            }
+            
             manager.RemoveAgent(this);
         }
     }
     
     private void StartAgent(float delay = 1f)
     {
+        if (updateRoutine != null) StopCoroutine(updateRoutine);
+        
         StartCoroutine(FadeIn(delay));
     }
 
     public void EndAgent(float delay = 0.7f)
     {
-        StopCoroutine(UpdateAgent());
+        if (updateRoutine != null)
+        {
+            StopCoroutine(updateRoutine);
+            updateRoutine = null;
+        }
+        
         StartCoroutine(FadeOut(delay));
     }
     
@@ -82,7 +101,7 @@ public class FOD_Agent : MonoBehaviour
         }
 
         sightRange = baseRadius;
-        StartCoroutine(UpdateAgent());
+        updateRoutine = StartCoroutine(UpdateAgent());
     }
     
     private IEnumerator FadeOut(float time)
