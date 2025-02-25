@@ -6,6 +6,8 @@ using UnityEngine;
 public class Checkpoint_Interaction : MonoBehaviour
 {
     public float activationDistance = 1f;
+    public float invulnerabilityDistance = 2f;
+    
     private bool isActive = false;
     
     private Transform player;
@@ -28,14 +30,32 @@ public class Checkpoint_Interaction : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive && player != null)
+        if (player != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-            if (distanceToPlayer <= activationDistance)
+            
+            if (!isActive)
             {
-                ActivateCheckpoint();
+                if (distanceToPlayer <= activationDistance)
+                {
+                    ActivateCheckpoint();
+                }
+            }
+            else
+            {
+                if (distanceToPlayer <= invulnerabilityDistance)
+                {
+                    Player_Steps.Instance.SetInvulnerability(true);
+                }
+                else
+                {
+                    Player_Steps.Instance.SetInvulnerability(false);
+                }
             }
         }
+       
+        
+        
     }
 
     private void ActivateCheckpoint()

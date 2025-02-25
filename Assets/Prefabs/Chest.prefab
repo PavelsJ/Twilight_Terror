@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2091895768579940728}
   - component: {fileID: 7186948616232338773}
   - component: {fileID: 80311644266725882}
+  - component: {fileID: 8111545636641221457}
   m_Layer: 0
   m_Name: Chest
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,3 +131,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &8111545636641221457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136953793874654916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ab675541609364393b83cfff5ab98a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIprefab: {fileID: 529224704539608602, guid: 8286d98568273a44d92418a8f336799f, type: 3}
+  chestOpenSprite: {fileID: 21300000, guid: 5dc90ab5f50753342b30d25b0c5c00a0, type: 3}

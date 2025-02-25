@@ -175,7 +175,7 @@ namespace FODMapping
             removeAgentsCoroutine = StartCoroutine(RemoveAgentsCoroutine());
         }
 
-        private IEnumerator RemoveAgentsCoroutine(float time = 1.1f)
+        private IEnumerator RemoveAgentsCoroutine(float time = 0.8f)
         {
             while (agents.Count > 0)
             {

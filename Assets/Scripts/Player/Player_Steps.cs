@@ -14,8 +14,8 @@ public class Player_Steps : MonoBehaviour
     public Transform enemy;
     
     [Header("Stats")] 
-    public bool invincible;
-    public bool stealth;
+    public bool isInvulnerable;
+    public bool isStealth;
     
     [Header("UI")] 
     public int stepCount = 20;
@@ -88,7 +88,7 @@ public class Player_Steps : MonoBehaviour
     
     public void NotifyEnemiesOfPlayerMove()
     {
-        if (!stealth)
+        if (!isStealth)
         {
             IncrementMoveCount();
         
@@ -101,7 +101,7 @@ public class Player_Steps : MonoBehaviour
     
     private void IncrementMoveCount()
     {
-        if (invincible || playerLives == 0) return;
+        if (isInvulnerable || playerLives == 0) return;
         stepCount--;  
         
         if (stepCount <= 1)
@@ -177,6 +177,17 @@ public class Player_Steps : MonoBehaviour
         {
             manager.gameObject.SetActive(true);
             manager.StartCoroutine(manager.EnableWithDelay(0.8f));
+        }
+    }
+    
+    public void SetInvulnerability(bool state)
+    {
+        isInvulnerable = state;
+
+        if (isInvulnerable)
+        {
+            stepCount = maxStepCount;
+            UpdateStepCountText();
         }
     }
 }
