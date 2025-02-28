@@ -77,15 +77,9 @@ public class Grid_Manager : MonoBehaviour
     
     private IEnumerator MoveSectorsSimultaneously(int index, float time)
     {
-        yield return StartCoroutine(MoveSector(lastSector, sectorPos[index + 1].position, time));
+        StartCoroutine(MoveSector(lastSector, sectorPos[index + 1].position, time));
+        yield return new WaitForSeconds(0.4f);
         midSectors[index].gameObject.SetActive(true);
-        
-        // yield return StartCoroutine(MoveSector(firstSector, sectorPos[index].position));
-        
-        // for (int i = 0; i < midSectors.Length; i++)
-        // {
-        //     midSectors[i].gameObject.SetActive(i == index);
-        // }
     }
 
     private IEnumerator MoveSector(Transform sector, Vector2 targetPos, float moveDuration)

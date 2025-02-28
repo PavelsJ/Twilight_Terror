@@ -31,7 +31,7 @@ namespace FODMapping
         private RenderTexture fogTexture;
 
         [Header("Agent Dictionary")]
-        public  List<FOD_Agent> agents = new();
+        private readonly List<FOD_Agent> agents = new();
         private const int maxAgentCount = 128;
         
         [Header("Buffers")]
@@ -42,7 +42,7 @@ namespace FODMapping
         public Grid_Manager grid;
         private Animator animator;
 
-        //
+        //Fog Initialization
         private void Awake()
         {
             fogMaterial = new Material(fogShader);
@@ -68,7 +68,7 @@ namespace FODMapping
             // EnableFOV();
         }
         
-        //
+        // Fog Activation
         public IEnumerator EnableInstantly()
         {
             yield return new WaitForSeconds(0.1f);
@@ -80,7 +80,7 @@ namespace FODMapping
 
         public IEnumerator EnableWithDelay(float delay)
         {
-            animator.SetTrigger("FadeIn");
+            SetFogVisibility(true);
             yield return new WaitForSeconds(delay);
             EnableFOV();
 
@@ -88,7 +88,7 @@ namespace FODMapping
             IsFogInitialized = true;
         }
 
-        //
+        // Fog Maintaining
         private void EnableFOV()
         {
             if (FOVCoroutine == null)
@@ -104,7 +104,7 @@ namespace FODMapping
             }
         }
 
-        //
+        // Fog Update 
         private IEnumerator UpdateFOV()
         {
             while (true)
@@ -113,7 +113,7 @@ namespace FODMapping
                 UpdateShaderValues();
             }
         }
-
+        
         private void UpdateShaderValues()
         {
             if(agents.Count < 1) return;
@@ -148,7 +148,7 @@ namespace FODMapping
             fogMaterial.SetColor("_FogColor", fogColor);
         }
         
-        //
+        // Agent Registry
         public void FindAllFOVAgents()
         {
             agents.Clear();
@@ -182,12 +182,12 @@ namespace FODMapping
             removeAgentsCoroutine = StartCoroutine(RemoveAgentsCoroutine());
         }
 
-        private IEnumerator RemoveAgentsCoroutine(float time = 0.8f)
+        private IEnumerator RemoveAgentsCoroutine(float time = 0.7f)
         {
             foreach (var agent in new List<FOD_Agent>(agents))
             {
                 agent.EndAgent(time);
-                yield return new WaitForSeconds(time + 0.2f);
+                yield return new WaitForSeconds(time + 0.1f);
             }
             
             DisableFOV();
@@ -196,6 +196,7 @@ namespace FODMapping
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         
+        // Player End of a Room
         public IEnumerator DisableWithDelay(float delay)
         {
             if (removeAgentsCoroutine != null)
@@ -216,10 +217,23 @@ namespace FODMapping
             }
             
             DisableFOV();
-            animator.SetTrigger("FadeOut");
+            SetFogVisibility(false);
             
-            yield return new WaitForSeconds(delay);
-            gameObject.SetActive(false);
+            // yield return new WaitForSeconds(delay);
+            // gameObject.SetActive(false);
+        }
+        
+        public void SetFogVisibility(bool visible)
+        {
+            if (visible)
+            {
+                animator.SetTrigger("FadeIn");
+            }
+            else
+            {
+                animator.SetTrigger("FadeOut");
+            }
+            
         }
         
         private void OnDestroy()

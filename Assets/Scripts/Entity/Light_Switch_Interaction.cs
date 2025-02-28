@@ -8,6 +8,7 @@ public class Light_Switch_Interaction : MonoBehaviour
 {
     public bool isActive = false;
     public Sprite sprite;
+    public Bed_Interaction bedInteraction;
     
     private FOD_Manager manager;
     private Transform player;
@@ -41,6 +42,12 @@ public class Light_Switch_Interaction : MonoBehaviour
         
         GetComponent<SpriteRenderer>().sprite = sprite;
         manager.StartCoroutine(manager.DisableWithDelay(0.8f));
+
+        if (bedInteraction != null)
+        {
+            bedInteraction.endScene = true;
+            Player_Steps.Instance.isInvulnerable = true;
+        }
     }
     
 }

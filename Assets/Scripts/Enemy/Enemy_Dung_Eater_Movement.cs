@@ -20,12 +20,18 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
     {
         Player_Steps.Instance.RegisterEnemy(this);
         
+        StartCoroutine(PointDelay());
+        StartCoroutine(DelayedStart());
+    }
+
+    private IEnumerator PointDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        
         if (movePoint != null)
         {
             movePoint.parent = null;
         }
-        
-        StartCoroutine(DelayedStart());
     }
     
     IEnumerator DelayedStart()
