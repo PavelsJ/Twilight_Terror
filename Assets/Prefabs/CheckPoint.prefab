@@ -116,3 +116,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationDistance: 1
+  invulnerabilityDistance: 2

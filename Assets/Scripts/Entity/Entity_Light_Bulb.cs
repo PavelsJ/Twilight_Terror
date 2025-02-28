@@ -18,18 +18,17 @@ public class Entity_Light_Bulb : MonoBehaviour, IInteractable
     public void DestroyObject()
     {
         UI_Inventory.Instance.AddItem(UIprefab);
-        StartCoroutine(FadeOut());
+        FadeOut();
     }
 
-    private IEnumerator FadeOut()
+    private void FadeOut()
     {
         anim.SetTrigger("FadeOut");
         
         GetComponent<Collider2D>().enabled = false;
-        GetComponent<FOD_Agent>().EndAgent();
         
-        yield return new WaitForSeconds(2);
-        
-        gameObject.SetActive(false);
+        FOD_Agent agent = gameObject.GetComponent<FOD_Agent>();
+        agent.deactivateOnEnd = true;
+        agent.EndAgent();
     }
 }

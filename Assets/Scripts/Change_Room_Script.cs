@@ -6,7 +6,10 @@ using UnityEngine;
 public class Change_Room_Script : MonoBehaviour
 {
     public int nextRoomIndex;
+    public float changeRoomTime;
+    
     public Grid_Manager gridInteraction;
+    
     public bool isStart = false;
     private bool isActive = false;
 
@@ -16,11 +19,11 @@ public class Change_Room_Script : MonoBehaviour
         {
             if (isStart)
             {
-                gridInteraction.OnStart(0);
+                gridInteraction.OnStart(0, changeRoomTime);
             }
             else
             {
-                gridInteraction.OnActive(nextRoomIndex);
+                gridInteraction.OnActive(nextRoomIndex, changeRoomTime);
             }
 
             StartCoroutine(Delay());

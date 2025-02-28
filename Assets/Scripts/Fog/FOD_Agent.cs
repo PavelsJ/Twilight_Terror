@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class FOD_Agent : MonoBehaviour
 {
-    public bool contributeToFOV = true; 
+    [Header("Agent State")]
+    public bool isActive = false; 
+    public bool deactivateOnEnd = false;
     
+    [Header("Agent Customization")]
     [Range(0.0f, 480.0f)] public float sightRange = 50.0f;
     [Range(0.0f, 1.0f)] public float sightTransparency = 0.5f;
 
@@ -35,6 +38,7 @@ public class FOD_Agent : MonoBehaviour
     {
         if (manager == null) return;
         
+        isActive = true;
         manager.AddAgent(this);
         
         if (manager.IsFogInitialized)
@@ -56,15 +60,51 @@ public class FOD_Agent : MonoBehaviour
             {
                 manager.OnFogInitialized -= fogInitCallback;
             }
-            
-            manager.RemoveAgent(this);
+
+            if (!isActive)
+            {
+                manager.RemoveAgent(this);
+            }
         }
+    }
+    
+    private void OnBecameVisible()
+    {
+        if (!isActive && !gameObject.CompareTag("Player"))
+        {
+            ActivateAgent();
+        }
+    }
+
+    private void OnBecameInvisible()
+    {
+        if (isActive && !gameObject.CompareTag("Player"))
+        {
+            DeactivateAgent();
+        }
+    }
+    
+    private void ActivateAgent()
+    {
+        if (isActive) return;
+
+        isActive = true;
+        manager.AddAgent(this);
+        
+        StartAgent();
+    }
+    
+    private void DeactivateAgent()
+    {
+        if (!isActive) return;
+        
+        EndAgent();
     }
     
     private void StartAgent(float delay = 1f)
     {
         if (updateRoutine != null) StopCoroutine(updateRoutine);
-        
+       
         StartCoroutine(FadeIn(delay));
     }
 
@@ -76,16 +116,11 @@ public class FOD_Agent : MonoBehaviour
             updateRoutine = null;
         }
         
-        StartCoroutine(FadeOut(delay));
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(FadeOut(delay));
+        }
     }
-    
-    // public void RemoveAgent()
-    // {
-    //     if (manager != null)
-    //     {
-    //         manager.RemoveAgent(this);
-    //     }
-    // }
     
     private IEnumerator FadeIn(float time)
     {
@@ -121,7 +156,14 @@ public class FOD_Agent : MonoBehaviour
 
         if (!gameObject.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
+            isActive = false;
+            manager.RemoveAgent(this);
+            
+            if (deactivateOnEnd)
+            {
+                yield return new WaitForSeconds(0.2f); 
+                gameObject.SetActive(false);
+            }
         }
     }
 

@@ -155,7 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b975b573f27f85438698fff0c4e35e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contributeToFOV: 1
+  isActive: 0
+  deactivateOnEnd: 1
   sightRange: 16
   sightTransparency: 0.8
   flickering: 1

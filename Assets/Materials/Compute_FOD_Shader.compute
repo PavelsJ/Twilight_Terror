@@ -1,31 +1,27 @@
-// Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
 
-RWTexture2D<float4> _FogTexture;
-StructuredBuffer<float2> _Positions;
-StructuredBuffer<float> _Ranges;
+RWTexture2D<float4> Result;
+StructuredBuffer<float4> _Agents;
 int _AgentCount;
-float2 _TextureSize;
 
 [numthreads(8, 8, 1)]
-void CSMain(uint2 id : SV_DispatchThreadID)
+void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    if (id.x >= _TextureSize.x || id.y >= _TextureSize.y) return;
-
-    float2 uv = id / _TextureSize;
-    float alpha = 1.0f;
-
+    if (id.x >= 320 || id.y >= 320) return;
+    float intensity = 0.0;
+    float2 pixelCoord = float2(id.x, id.y);
+    
     for (int i = 0; i < _AgentCount; i++)
     {
-        float2 pos = _Positions[i];
-        float range = _Ranges[i] / _TextureSize.x;
-        
-        float2 diff = uv - pos;
-        float dist = length(diff);
-        
-        float influence = smoothstep(range, range * 0.5, dist);  
-        alpha = min(alpha, influence);
+        float2 agentPos = _Agents[i].xy;
+        float range = _Agents[i].z;
+        float2 diff = pixelCoord - agentPos;
+        float distSq = dot(diff, diff);
+        float influence = range * range / (distSq + 1.0);
+        intensity += influence;
     }
-
-    _FogTexture[id] = float4(0, 0, 0, alpha);
+    
+    float threshold = 1.0;
+    float alpha = intensity > threshold ? 0.0 : (intensity > threshold * 0.7 ? 0.8 : 1.0);
+    Result[id.xy] = float4(0.1, 0.1, 0.1, alpha);
 }

@@ -17,6 +17,7 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     public LayerMask groundLayer;
     public LayerMask boxLayer;
     
+    public SpriteMask spriteMask;
     public GameObject bloodSplash;
     
     private Queue<Vector3> pathQueue = new Queue<Vector3>();
@@ -30,6 +31,8 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
             movePoint.parent = null;
             currentDirection = firstDirection;
         }
+        
+        spriteMask.enabled = false;
     }
     
     void Update()

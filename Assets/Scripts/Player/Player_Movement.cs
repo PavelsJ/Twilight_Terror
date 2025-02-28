@@ -51,8 +51,6 @@ public class Player_Movement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-   
-
     void Update()
     {
         if (!isDead)

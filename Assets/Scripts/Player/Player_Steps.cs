@@ -165,6 +165,7 @@ public class Player_Steps : MonoBehaviour
                 if (enemy is Enemy_Spider_Movement spiderMovement)
                 {
                     spiderMovement.isChasingPlayer = true;
+                    spiderMovement.spriteMask.enabled = true;
                 }
             }
         }

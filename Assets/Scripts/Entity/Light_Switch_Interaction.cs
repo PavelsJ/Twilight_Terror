@@ -7,6 +7,8 @@ using UnityEngine;
 public class Light_Switch_Interaction : MonoBehaviour
 {
     public bool isActive = false;
+    public Sprite sprite;
+    
     private FOD_Manager manager;
     private Transform player;
 
@@ -37,6 +39,7 @@ public class Light_Switch_Interaction : MonoBehaviour
             return;
         }
         
+        GetComponent<SpriteRenderer>().sprite = sprite;
         manager.StartCoroutine(manager.DisableWithDelay(0.8f));
     }
     

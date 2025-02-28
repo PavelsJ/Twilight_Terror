@@ -34,7 +34,6 @@ Shader "Custom/FOD_Mapping"
             float2 _TextureSize;
             
             StructuredBuffer<float3> _Agents;
-            StructuredBuffer<float> _Transparency;
             
             int _AgentCount;
 

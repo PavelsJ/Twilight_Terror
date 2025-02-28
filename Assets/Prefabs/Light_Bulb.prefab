@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 1535477347
   m_SortingLayer: 2
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 13682dad25c0dca43ad42af559528121, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29f391883ced47c4dac8169d06174d66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b975b573f27f85438698fff0c4e35e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contributeToFOV: 1
+  contributeToFOV: 0
   sightRange: 36
   sightTransparency: 1
   flickering: 1
