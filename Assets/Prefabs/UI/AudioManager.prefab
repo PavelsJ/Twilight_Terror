@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 198922764243748216}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 184248805989202348, guid: 825bd33acf28d924795cdcb2f009f0e6, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -178,12 +178,17 @@ MonoBehaviour:
   - name: Footsteps
     sounds:
     - {fileID: 0}
-  - name: Cricking
+  - name: Gritting
+    sounds: []
+  - name: Twilight
+    sounds: []
+  - name: Shake
     sounds:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 9a502588cb5ce874b84c19c158213767, type: 3}
+  - name: Noise
+    sounds: []
+  - name: Warning
+    sounds:
+    - {fileID: 8300000, guid: 69ea80d658330ce40be7f9c54c8720af, type: 3}
   - name: Hurt
-    sounds:
-    - {fileID: 0}
-    - {fileID: 0}
+    sounds: []

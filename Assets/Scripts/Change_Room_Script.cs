@@ -25,6 +25,8 @@ public class Change_Room_Script : MonoBehaviour
             {
                 gridInteraction.OnActive(nextRoomIndex, changeRoomTime);
             }
+            
+            Audio_Manager.PlaySound(SoundType.Shake, 1);
 
             StartCoroutine(Delay());
             isActive = true;
@@ -34,7 +36,7 @@ public class Change_Room_Script : MonoBehaviour
     private IEnumerator Delay()
     {
         Player_Movement.Instance.isDisable = true;
-        yield return new WaitForSeconds(changeRoomTime - 0.4f);
+        yield return new WaitForSeconds(changeRoomTime);
         Player_Movement.Instance.isDisable = false;
     }
 }

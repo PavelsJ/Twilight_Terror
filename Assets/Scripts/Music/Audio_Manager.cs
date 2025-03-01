@@ -11,6 +11,7 @@ public enum SoundType
     Gritting,
     Twilight,
     Shake,
+    Noise,
     Warning,
     Hurt
 }

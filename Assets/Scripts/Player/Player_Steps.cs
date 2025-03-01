@@ -153,6 +153,9 @@ public class Player_Steps : MonoBehaviour
     
     private void ActivateCentipedeChase()
     {
+        MusicManager.instance.PlayMusic(MusicManager.instance.chaseMusic);
+        Audio_Manager.PlaySound(SoundType.Warning);
+        
         if(enemy != null) enemy.gameObject.SetActive(true);
     }
 
@@ -160,6 +163,9 @@ public class Player_Steps : MonoBehaviour
     {
         if (enemies.Count > 0)
         {
+            MusicManager.instance.PlayMusic(MusicManager.instance.chaseMusic);
+            Audio_Manager.PlaySound(SoundType.Warning);
+            
             foreach (var enemy in enemies)
             {
                 if (enemy is Enemy_Spider_Movement spiderMovement)

@@ -41,12 +41,12 @@ AudioSource:
   m_GameObject: {fileID: 68376578693005842}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1610202318758130536, guid: 825bd33acf28d924795cdcb2f009f0e6, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -176,4 +176,4 @@ MonoBehaviour:
   musicSource: {fileID: 1855853918686684406}
   mainThemeMusic: {fileID: 8300000, guid: bcafe071ba8722b4c881c6f963ad547b, type: 3}
   ambientMusic: {fileID: 8300000, guid: da1a67a37bf7ad644a427a484284e2b4, type: 3}
-  chaseMusic: {fileID: 8300000, guid: d94c412c37d93b64a84494673743f239, type: 3}
+  chaseMusic: {fileID: 8300000, guid: b64a054737fb942e0b9cf0aeb5f44e01, type: 3}

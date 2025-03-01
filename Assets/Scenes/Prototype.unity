@@ -3291,42 +3291,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[1].name
-      value: Gritting
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[2].name
-      value: Twilight
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[3].name
-      value: Shake
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[4].name
-      value: Warning
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[5].name
-      value: Hurt
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[1].sounds.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5455388031169405924, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: sounds.Array.data[2].sounds.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5724040472811453419, guid: 29f35555979b7a44f873fca2137a8a38, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12343,10 +12307,6 @@ PrefabInstance:
     - target: {fileID: 1191301455832519445, guid: 5a0719172fddacb4393966d3049a821d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855853918686684406, guid: 5a0719172fddacb4393966d3049a821d, type: 3}
-      propertyPath: Loop
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2506655122193385464, guid: 5a0719172fddacb4393966d3049a821d, type: 3}
       propertyPath: m_Name
