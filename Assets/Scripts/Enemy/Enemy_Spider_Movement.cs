@@ -26,21 +26,14 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     {
         Player_Steps.Instance.RegisterEnemy(this);
 
-        StartCoroutine(PointDelay());
-        
-        currentDirection = firstDirection;
-        
-        spriteMask.enabled = false;
-    }
-    
-    private IEnumerator PointDelay()
-    {
-        yield return new WaitForSeconds(1f);
-        
         if (movePoint != null)
         {
             movePoint.parent = null;
         }
+        
+        currentDirection = firstDirection;
+        
+        spriteMask.enabled = false;
     }
     
     void Update()

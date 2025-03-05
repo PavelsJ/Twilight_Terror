@@ -14,24 +14,18 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
     public GameObject lightBulb;
     public GameObject bloodSplash;
     
-    private Vector3 currentDirection;
+    private Vector3 currentDirection = Vector3.up;
     
     void Start()
     {
         Player_Steps.Instance.RegisterEnemy(this);
         
-        StartCoroutine(PointDelay());
-        StartCoroutine(DelayedStart());
-    }
-
-    private IEnumerator PointDelay()
-    {
-        yield return new WaitForSeconds(1f);
-        
         if (movePoint != null)
         {
             movePoint.parent = null;
         }
+        
+        StartCoroutine(DelayedStart());
     }
     
     IEnumerator DelayedStart()

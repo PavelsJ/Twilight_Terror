@@ -176,9 +176,11 @@ public class FOD_Agent : MonoBehaviour
 
     private IEnumerator UpdateAgent()
     {
+        float updateInterval = 1f / 60f; 
+        
         while (true)
         {
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSecondsRealtime(updateInterval);
             UpdateRadiusValues();
         }
     }

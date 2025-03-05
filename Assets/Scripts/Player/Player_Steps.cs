@@ -180,6 +180,7 @@ public class Player_Steps : MonoBehaviour
     private void ActivateFog()
     {
         FOD_Manager manager = FindObjectOfType<FOD_Manager>(true);
+        
         if (manager != null)
         {
             manager.gameObject.SetActive(true);

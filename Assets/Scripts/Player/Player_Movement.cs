@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    public static Player_Movement Instance { get; private set; }
+    private static Player_Movement instance;
     
     [Header("Player Settings")]
     public float speed = 5f; 
@@ -32,22 +32,21 @@ public class Player_Movement : MonoBehaviour
     [Header("Compounds")]
     private SpriteRenderer spriteRenderer;
     
-    private void Awake()
+    public static Player_Movement Instance
     {
-        if (Instance == null)
+        get
         {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Player_Movement>();
+            }
+            return instance;
         }
     }
     
     void Start()
     {
         movePoint.parent = null;
-        isDisable = true;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -57,27 +56,31 @@ public class Player_Movement : MonoBehaviour
         {
             if (trapTimer > 0f)
             {
-                trapTimer -= Time.deltaTime; 
+                trapTimer -= Time.deltaTime;
                 return;
             }
-            
+
             if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
             {
-                Vector3 direction = Vector3.zero;
-                
-                if (Input.GetKeyDown(KeyCode.W)) direction = Vector3.up;
-                else if (Input.GetKeyDown(KeyCode.S)) direction = Vector3.down;
-                else if (Input.GetKeyDown(KeyCode.A)) direction = Vector3.left;
-                else if (Input.GetKeyDown(KeyCode.D)) direction = Vector3.right;
-                
+                Vector3 direction = HandleInput();
                 if (direction != Vector3.zero && !isDisable)
                 {
                     HandleMove(direction);
                 }
             }
         }
-        
+
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, speed * Time.deltaTime);
+    }
+    
+    private Vector3 HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.W)) return Vector3.up;
+        if (Input.GetKeyDown(KeyCode.S)) return Vector3.down;
+        if (Input.GetKeyDown(KeyCode.A)) return Vector3.left;
+        if (Input.GetKeyDown(KeyCode.D)) return Vector3.right;
+        
+        return Vector3.zero;
     }
     
     private void HandleMove(Vector3 direction)
@@ -106,76 +109,63 @@ public class Player_Movement : MonoBehaviour
             if (box != null && box.TryPush(direction))
             {
                 Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
-                
                 Move(targetPosition);
             }
         }
-        else
+        else if (CanMoveTo(targetPosition, groundLayer))
         {
-            if (Physics2D.OverlapPoint(targetPosition, groundLayer))
-            {
-                Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
-
-                if (isMoving)
-                {
-                    Move(targetPosition);
-                }
-            }
-            else if (Physics2D.OverlapPoint(targetPosition, voidLayer))
-            {
-                if (isMoving)
-                {
-                    Move(targetPosition);
-                    isDead = true;
-
-                    StartCoroutine(FallToTheVoid());
-                   
-                }
-            }
-            else if (Physics2D.OverlapPoint(targetPosition, iceLayer))
-            {
-                Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
-
-                if (isMoving)
-                {
-                    MoveOnIce(targetPosition);
-                }
-            }
+            Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+            
+            Move(targetPosition);
+        }
+        else if (CanMoveTo(targetPosition, voidLayer))
+        {
+            Move(targetPosition);
+            
+            isDead = true;
+            StartCoroutine(FallToTheVoid());
+        }
+        else if (CanMoveTo(targetPosition, iceLayer))
+        {
+            Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+            
+            MoveOnIce(targetPosition);
         }
     }
 
     private void MoveOnIce(Vector3 direction)
     {
         Vector3 slideDirection = direction - movePoint.position;
-        Vector3 currentPosition = movePoint.position;
-
+        Vector3 targetPosition = movePoint.position;
+        
         int count = 0;
-        while (Physics2D.OverlapPoint(currentPosition + slideDirection, iceLayer) && count < 100)
+        while (true && count < 100)
         {
-            currentPosition += slideDirection;
+            Vector3 nextPosition = targetPosition + slideDirection;
+            
+            if (Physics2D.OverlapPoint(nextPosition, boxLayer))
+                break; 
+            
+            if (!Physics2D.OverlapPoint(nextPosition, iceLayer))
+            {
+                if (Physics2D.OverlapPoint(nextPosition, groundLayer) 
+                    || Physics2D.OverlapPoint(nextPosition, voidLayer))
+                {
+                    targetPosition = nextPosition;
+                }
+                break;
+            }
+
+            targetPosition = nextPosition;
             count++;
         }
         
-        if (Physics2D.OverlapPoint(currentPosition + slideDirection, boxLayer))
-        {
-            Move(currentPosition);
-            return;
-        }
+        Move(targetPosition);
         
-        if (Physics2D.OverlapPoint(currentPosition + slideDirection, groundLayer))
+        if (Physics2D.OverlapPoint(targetPosition, voidLayer))
         {
-            Move(currentPosition + slideDirection);
-        }
-        else if (Physics2D.OverlapPoint(currentPosition + slideDirection, voidLayer))
-        {
-            Move(currentPosition + slideDirection);
             isDead = true;
-            
             StartCoroutine(FallToTheVoid());
-        }
-        else
-        {
-            Move(currentPosition);
         }
     }
 
@@ -222,32 +212,11 @@ public class Player_Movement : MonoBehaviour
         {
            spriteRenderer.flipX = true; 
         }
-        
-        // RotateArrow(direction);
     }
-
-    private void RotateArrow(Vector3 dir)
+    
+    private bool CanMoveTo(Vector3 position, LayerMask layer)
     {
-        Quaternion targetRotation = arrowPoint.rotation;
-        
-        if (dir == Vector3.up)
-        {
-            targetRotation = Quaternion.Euler(0, 0, 0);
-        }
-        else if (dir == Vector3.down)
-        {
-            targetRotation = Quaternion.Euler(0, 0, 180);
-        }
-        else if (dir == Vector3.left)
-        {
-            targetRotation = Quaternion.Euler(0, 0, 90);
-        }
-        else if (dir == Vector3.right)
-        {
-            targetRotation = Quaternion.Euler(0, 0, -90);
-        }
-
-        arrowPoint.rotation = targetRotation;
+        return Physics2D.OverlapPoint(position, layer);
     }
     
     public void HitByTrap()

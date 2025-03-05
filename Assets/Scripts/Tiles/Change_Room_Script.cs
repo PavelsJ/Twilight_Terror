@@ -36,7 +36,7 @@ public class Change_Room_Script : MonoBehaviour
     private IEnumerator Delay()
     {
         Player_Movement.Instance.isDisable = true;
-        yield return new WaitForSeconds(changeRoomTime);
+        yield return new WaitForSeconds(changeRoomTime + 0.1f);
         Player_Movement.Instance.isDisable = false;
     }
 }

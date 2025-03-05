@@ -16,6 +16,7 @@ namespace FODMapping
         
         public event Action OnFogInitialized;
         public bool IsFogInitialized { get; private set; }
+        private bool isInitialized = false;
         
         private static readonly Vector2 textureSize = new(320, 320);
 
@@ -65,6 +66,8 @@ namespace FODMapping
 
             agentsBuffer = new ComputeBuffer(maxAgentCount, sizeof(float) * 3);
             
+            isInitialized = true;
+            
             // EnableFOV();
         }
         
@@ -72,6 +75,7 @@ namespace FODMapping
         public IEnumerator EnableInstantly()
         {
             yield return new WaitForSeconds(0.1f);
+            
             EnableFOV();
 
             OnFogInitialized?.Invoke();
@@ -80,7 +84,10 @@ namespace FODMapping
 
         public IEnumerator EnableWithDelay(float delay)
         {
+            yield return new WaitUntil(() => isInitialized);
+            
             SetFogVisibility(true);
+            
             yield return new WaitForSeconds(delay);
             EnableFOV();
 

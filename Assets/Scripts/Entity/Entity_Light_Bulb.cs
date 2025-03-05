@@ -23,9 +23,9 @@ public class Entity_Light_Bulb : MonoBehaviour, IInteractable
 
     private void FadeOut()
     {
-        anim.SetTrigger("FadeOut");
-        
         GetComponent<Collider2D>().enabled = false;
+        
+        anim.SetTrigger("FadeOut");
         
         FOD_Agent agent = gameObject.GetComponent<FOD_Agent>();
         agent.deactivateOnEnd = true;
