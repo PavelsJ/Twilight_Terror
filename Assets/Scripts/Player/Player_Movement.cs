@@ -16,6 +16,7 @@ public class Player_Movement : MonoBehaviour
     public bool isDisable  = false;
     public bool isDead = false; 
     
+    [Header("Transform References")] 
     public Transform movePoint;
     public Transform arrowPoint;
 

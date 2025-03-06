@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
 {
+    [Header("Spider Settings")]
     public Vector2 firstDirection = Vector2.right;
     private Vector3 currentDirection;
     
@@ -11,12 +12,15 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     public bool isMoving = false;
     public bool isChasingPlayer = false;
     
+    [Header("Transform References")] 
     public Transform movePoint; 
     public Transform player;
     
+    [Header("Layer Settings")] 
     public LayerMask groundLayer;
     public LayerMask boxLayer;
     
+    [Header("Compounds")]
     public SpriteMask spriteMask;
     public GameObject bloodSplash;
     

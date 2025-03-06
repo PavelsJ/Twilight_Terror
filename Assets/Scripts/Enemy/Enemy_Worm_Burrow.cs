@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Worm_Burrow_Interaction : MonoBehaviour, IEnemy
+public class Enemy_Worm_Burrow : MonoBehaviour, IEnemy
 {
     public GameObject worm;
     public float wormSpeed = 5;

@@ -10,8 +10,11 @@ public class Chest_Interaction : MonoBehaviour, IInteractable
     public void DestroyObject()
     {
         UI_Inventory.Instance.AddItem(UIprefab);
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = chestOpenSprite;
+        spriteRenderer.color = Color.gray;
         
-        GetComponent<SpriteRenderer>().sprite = chestOpenSprite;
         GetComponent<Collider2D>().enabled = false;
     }
 }

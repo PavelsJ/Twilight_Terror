@@ -83,6 +83,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3616552162798870814, guid: 89fa4b0797100d14ebe4576c988d4ca1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3616552162798870814, guid: 89fa4b0797100d14ebe4576c988d4ca1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 7400467199684872965, guid: 89fa4b0797100d14ebe4576c988d4ca1, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -117,6 +125,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7391109865195060099}
     m_Modifications:
+    - target: {fileID: 2103162204899013614, guid: fd6539fba6242bc48a6807c67e5a68e8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103162204899013614, guid: fd6539fba6242bc48a6807c67e5a68e8, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 8157182635315075245, guid: fd6539fba6242bc48a6807c67e5a68e8, type: 3}
       propertyPath: m_Name
       value: Enemy_Centipede_Tail
@@ -203,6 +219,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 671264559454202525, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
+      propertyPath: m_Size.x
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1430330212728027900, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -284,6 +304,14 @@ PrefabInstance:
     - target: {fileID: 32836089404905232, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 671264559454202525, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 671264559454202525, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2618727462783811190, guid: a14b6dbfae22e9d45918dee8989fe700, type: 3}
       propertyPath: m_LocalPosition.x

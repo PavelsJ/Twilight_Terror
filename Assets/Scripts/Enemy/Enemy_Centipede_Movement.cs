@@ -5,20 +5,27 @@ using UnityEngine;
 
 public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
 {
-    public float speed = 5f; 
+    [Header("Centipede Settings")]
+    public float speed = 5f;
     public bool isMoving = false;
   
+    [Header("Transform References")] 
     public Transform player;
     private Transform target;
     
-    public Transform movePoint; 
-    public LayerMask groundLayer;
-    public Copy_Past_Movement copy;
+    public Transform movePoint;
     
-    public float detectionRange = 2f; 
+    [Header("Layer Settings")] 
+    public LayerMask groundLayer;
+    
+    [Header("Movement Settings")]
+    public float detectionRange = 2f;
     public SpriteMask spriteMask;
     
+    [Header("Compounds")]
+    public Copy_Past_Movement copy;
     private Queue<Vector3> pathQueue = new Queue<Vector3>();
+    private HashSet<Vector3> visitedPositions = new HashSet<Vector3>();
     
     void Start()
     {
@@ -61,20 +68,7 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
             {
                 float distanceToPlayer = Vector3.Distance(transform.position, player.position);
                 
-                if (distanceToPlayer <= detectionRange)
-                {
-                    if (spriteMask != null)
-                    {
-                        spriteMask.enabled = true; 
-                    }
-                }
-                else
-                {
-                    if (spriteMask != null)
-                    {
-                        spriteMask.enabled = false; 
-                    }
-                }
+                spriteMask.enabled = distanceToPlayer <= detectionRange;
             }
         }
     }
@@ -93,113 +87,47 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
 
         if (target != null)
         {
-            List<Vector3> path = CalculatePath(movePoint.position, target.position);
+            List<Vector3> path = CalculateAStarPath(movePoint.position, target.position);
             
-            if (path != null && path.Count > 1) 
+            if (path != null && path.Count > 1)
             {
                 copy.UpdateSegmentPosition(movePoint.position);
                 movePoint.position = path[1];
                 isMoving = true;
             }
         }
-        else
-        {
-            Debug.LogWarning("No target available. Pathfinding skipped.");
-        }
     }
 
-    private Transform FindPriorityTarget()
+    private List<Vector3> CalculateAStarPath(Vector3 start, Vector3 goal)
     {
-        GameObject[] priorityObjects = GameObject.FindGameObjectsWithTag("Interactable");
-        
-        if (priorityObjects.Length > 0)
-        {
-            float shortestDistance = float.MaxValue;
-            Transform closestObject = null;
-        
-            foreach (var obj in priorityObjects)
-            {
-                float distance = Vector3.Distance(transform.position, obj.transform.position);
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    closestObject = obj.transform;
-                }
-            }
-        
-            return closestObject;
-        }
-
-        return player; 
-    }
-
-
-    private List<Vector3> CalculatePath(Vector3 start, Vector3 goal)
-    {
-        Queue<Vector3> frontier = new Queue<Vector3>();
-        frontier.Enqueue(start);
-
+        PriorityQueue<Vector3> openSet = new PriorityQueue<Vector3>();
         Dictionary<Vector3, Vector3> cameFrom = new Dictionary<Vector3, Vector3>();
+        Dictionary<Vector3, float> gScore = new Dictionary<Vector3, float> { { start, 0 } };
+        Dictionary<Vector3, float> fScore = new Dictionary<Vector3, float> { { start, Vector3.Distance(start, goal) } };
+        
+        openSet.Enqueue(start, fScore[start]);
         cameFrom[start] = start;
-
-        List<Vector3> visited = new List<Vector3>();
-
-        while (frontier.Count > 0)
+        
+        while (openSet.Count > 0)
         {
-            Vector3 current = frontier.Dequeue();
-
-            if (current == goal)
-            {
-                return ReconstructPath(cameFrom, current);
-            }
-
+            Vector3 current = openSet.Dequeue();
+            if (current == goal) return ReconstructPath(cameFrom, current);
+            
             foreach (Vector3 neighbor in GetNeighbors(current))
             {
-                if (!cameFrom.ContainsKey(neighbor))
+                if (visitedPositions.Contains(neighbor)) continue;
+                
+                float tentativeGScore = gScore[current] + Vector3.Distance(current, neighbor);
+                if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
                 {
-                    frontier.Enqueue(neighbor);
                     cameFrom[neighbor] = current;
-                    visited.Add(neighbor);
+                    gScore[neighbor] = tentativeGScore;
+                    fScore[neighbor] = gScore[neighbor] + Vector3.Distance(neighbor, goal);
+                    openSet.Enqueue(neighbor, fScore[neighbor]);
                 }
             }
         }
-        
-        Vector3 closestPoint = GetClosestPoint(visited, goal);
-        if (closestPoint != start) 
-        {
-            return new List<Vector3> { start, closestPoint };
-        }
-
         return null;
-    }
-
-    private Vector3 GetClosestPoint(List<Vector3> points, Vector3 goal)
-    {
-        float shortestDistance = float.MaxValue;
-        Vector3 closestPoint = goal;
-
-        foreach (var point in points)
-        {
-            float distance = Vector3.Distance(point, goal);
-            if (distance < shortestDistance)
-            {
-                shortestDistance = distance;
-                closestPoint = point;
-            }
-        }
-
-        return closestPoint;
-    }
-
-    private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
-    {
-        List<Vector3> path = new List<Vector3> { current };
-        while (cameFrom[current] != current)
-        {
-            current = cameFrom[current];
-            path.Insert(0, current);
-        }
-        return path;
     }
 
     private List<Vector3> GetNeighbors(Vector3 position)
@@ -223,5 +151,15 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
 
         return neighbors;
     }
-    
+
+    private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
+    {
+        List<Vector3> path = new List<Vector3> { current };
+        while (cameFrom[current] != current)
+        {
+            current = cameFrom[current];
+            path.Insert(0, current);
+        }
+        return path;
+    }
 }

@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
 {
+    [Header("Dung Eater Settings")]
+    public Vector2 firstDirection = Vector2.up;
+        
     public float speed = 5;
-    public bool isMoving = false;
     
-    public Transform movePoint; 
+    public bool isMoving = false;
+    public bool isDead = false;
+    
+    [Header("Transform References")] 
+    public Transform movePoint;
+    
+    [Header("Layer Settings")] 
     public LayerMask groundLayer;
     public LayerMask boxLayer;
     
+    [Header("Compounds")]
     public GameObject lightBulb;
     public GameObject bloodSplash;
     
-    private Vector3 currentDirection = Vector3.up;
+    private Vector3 currentDirection;
     
     void Start()
     {
         Player_Steps.Instance.RegisterEnemy(this);
+        currentDirection = firstDirection;
         
         if (movePoint != null)
         {
@@ -37,7 +47,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
 
     void Update()
     {
-        if (isMoving && movePoint != null)
+        if (isMoving && movePoint != null && !isDead)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePoint.position, speed * Time.deltaTime);
             
@@ -131,6 +141,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
         
         Instantiate(lightBulb, transform.position, Quaternion.identity);
         
+        isDead = true;
         Player_Steps.Instance.DeregisterEnemy(this);
         
         FOD_Agent agent = gameObject.GetComponent<FOD_Agent>();

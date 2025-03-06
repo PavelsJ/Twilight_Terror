@@ -132,8 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a809f0c4a7f9fc54bbb5ac7f0f0480dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstDirection: {x: 0, y: 1}
   speed: 5
   isMoving: 0
+  isDead: 0
   movePoint: {fileID: 5689023867204285064}
   groundLayer:
     serializedVersion: 2

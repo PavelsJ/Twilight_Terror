@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Worm_Burrow_Movement : MonoBehaviour, IEnemy
+public class Enemy_Worm_Movement : MonoBehaviour, IEnemy
 {
-    public GameObject worm;
     public float wormSpeed = 7;
     
     public Transform firstBurrow;
@@ -13,16 +12,13 @@ public class Enemy_Worm_Burrow_Movement : MonoBehaviour, IEnemy
     private int count;
     private bool movingToSecond = true;
     private Coroutine movementCoroutine;
-
+    
     private void Start()
     {
-        if (worm != null)
-        {
-            Player_Steps.Instance.RegisterEnemy(this);
-            
-            worm.SetActive(false);
-            worm.transform.position = firstBurrow.position; 
-        }
+        Player_Steps.Instance.RegisterEnemy(this);
+        
+        gameObject.SetActive(false);
+        transform.position = firstBurrow.position; 
     }
     
     public void OnPlayerMoved()
@@ -31,7 +27,7 @@ public class Enemy_Worm_Burrow_Movement : MonoBehaviour, IEnemy
         
         if (count % 2 == 0)
         {
-            worm.SetActive(true);
+            gameObject.SetActive(true);
             
             Transform targetBurrow = movingToSecond ? secondBurrow : firstBurrow;
             
@@ -48,15 +44,29 @@ public class Enemy_Worm_Burrow_Movement : MonoBehaviour, IEnemy
     
     private IEnumerator MoveWormTo(Transform target)
     {
-        while (worm != null && Vector3.Distance(worm.transform.position, target.position) > 0.05f)
+        while (Vector3.Distance(transform.position, target.position) > 0.05f)
         {
-            worm.transform.position = Vector3.MoveTowards(
-                worm.transform.position, target.position, wormSpeed * Time.deltaTime);
+            Vector3 direction = target.position - transform.position;
+            if (direction != Vector3.zero)
+            {
+                RotateSprite(direction); 
+            }
+            
+            transform.position = Vector3.MoveTowards(
+                transform.position, target.position, wormSpeed * Time.deltaTime);
+            
             yield return null;
         }
         
         yield return new WaitForSeconds(0.2f);
         
-        worm.SetActive(false);
+        gameObject.SetActive(false);
     }
+    
+    private void RotateSprite(Vector3 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; 
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90)); 
+    }
+
 }
