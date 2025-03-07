@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using FODMapping;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
@@ -32,6 +33,7 @@ public class Player_Movement : MonoBehaviour
     
     [Header("Compounds")]
     private SpriteRenderer spriteRenderer;
+    private FOD_Agent agent;
     
     public static Player_Movement Instance
     {
@@ -49,6 +51,27 @@ public class Player_Movement : MonoBehaviour
     {
         movePoint.parent = null;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        agent = GetComponent<FOD_Agent>();
+        agent.enabled = false;
+    }
+
+    public void StartAgent(bool isActive)
+    {
+        if (isActive)
+        {
+            agent.enabled = true;
+        }
+        else
+        {
+            StartCoroutine(DelayedAgent());
+        }
+    }
+
+    private IEnumerator DelayedAgent()
+    {
+        yield return new WaitForSecondsRealtime(3.5f);
+        agent.enabled = true;
     }
 
     void Update()
