@@ -41,12 +41,12 @@ public class Light_Switch_Interaction : MonoBehaviour
         }
         
         GetComponent<SpriteRenderer>().sprite = sprite;
-        manager.StartCoroutine(manager.DisableWithDelay(0.8f));
+        manager.StartCoroutine(manager.DisableWithDelay());
 
         if (bedInteraction != null)
         {
             bedInteraction.endScene = true;
-            Player_Steps.Instance.isInvulnerable = true;
+            Player_Movement_Manager.Instance.isInvulnerable = true;
         }
     }
     

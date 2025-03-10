@@ -27,7 +27,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
     
     void Start()
     {
-        Player_Steps.Instance.RegisterEnemy(this);
+        Player_Movement_Manager.Instance.RegisterEnemy(this);
         currentDirection = firstDirection;
         
         if (movePoint != null)
@@ -142,7 +142,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
         Instantiate(lightBulb, transform.position, Quaternion.identity);
         
         isDead = true;
-        Player_Steps.Instance.DeregisterEnemy(this);
+        Player_Movement_Manager.Instance.DeregisterEnemy(this);
         
         FOD_Agent agent = gameObject.GetComponent<FOD_Agent>();
         agent.deactivateOnEnd = true;

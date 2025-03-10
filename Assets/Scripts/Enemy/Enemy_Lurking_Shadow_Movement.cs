@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
+public class Enemy_Lurking_Shadow_Movement : MonoBehaviour, IEnemy, IInteractable
 {
     [Header("Spider Settings")]
-    public Vector2 firstDirection = Vector2.right;
     private Vector3 currentDirection;
+    public float chaseDistance = 1f;
     
     public float speed = 5;
-    public bool isMoving = false;
-    public bool isChasingPlayer = false;
+    public bool isNear = false;
+    
+    private bool isMoving = false;
+    private bool isChasingPlayer = false;
     
     [Header("Transform References")] 
     public Transform movePoint; 
-    public Transform player;
+    private Transform player;
+    
+    private Transform startPosition;
     
     [Header("Layer Settings")] 
     public LayerMask groundLayer;
@@ -29,19 +33,56 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     void Start()
     {
         Player_Movement_Manager.Instance.RegisterEnemy(this);
+        
+        player = FindObjectOfType<Player_Movement>(true).transform;
+        
+        startPosition = transform;
 
         if (movePoint != null)
         {
             movePoint.parent = null;
         }
-        
-        currentDirection = firstDirection;
-        
-        spriteMask.enabled = false;
     }
     
-    void Update()
+    public void OnPlayerMoved()
     {
+        if (isMoving || movePoint == null) return;
+
+        if (isChasingPlayer)
+        {
+            if (isNear && player != null)
+            {
+                MoveTowardsTarget(player);
+            }
+            else
+            {
+                MoveTowardsTarget(startPosition);
+            }
+        
+            isMoving = true;
+        }
+    }
+
+    public void Activate()
+    {
+        isChasingPlayer = true;
+    }
+    
+    private void Update()
+    {
+        if (!isChasingPlayer) return;
+        
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        
+        if (distanceToPlayer <= chaseDistance)
+        {
+            isNear = true;
+        }
+        else
+        {
+            isNear = false;
+        }
+        
         if (isMoving && movePoint != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePoint.position, speed * Time.deltaTime);
@@ -53,30 +94,14 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
         }
     }
     
-    public void OnPlayerMoved()
+    private void MoveTowardsTarget(Transform target)
     {
-        if (isMoving || movePoint == null) return;
-        
-        if (isChasingPlayer && player != null)
-        {
-            MoveTowardsPlayer();
-        }
-        else
-        {
-            PatrolMovement();
-        }
-
-        isMoving = true;
-    }
-    
-    private void MoveTowardsPlayer()
-    {
-        List<Vector3> path = CalculatePath(movePoint.position, player.position);
+        List<Vector3> path = CalculatePath(movePoint.position, target.position);
         
         if (path != null && path.Count > 1) 
         {
             pathQueue.Clear();
-            for (int i = 1; i < path.Count; i++) // Заполняем очередь (игнорируем 0-й элемент, так как это текущая позиция)
+            for (int i = 1; i < path.Count; i++) 
             {
                 pathQueue.Enqueue(path[i]);
             }
@@ -87,23 +112,7 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
             }
         }
     }
-
-    private void PatrolMovement()
-    {
-        if (CanMove(currentDirection))
-        {
-            movePoint.position += currentDirection;
-        }
-        else
-        {
-            currentDirection = -currentDirection;
-            if (CanMove(currentDirection))
-            {
-                movePoint.position += currentDirection;
-            }
-        }
-    }
-
+    
     private List<Vector3> CalculatePath(Vector3 start, Vector3 goal)
     {
         Queue<Vector3> frontier = new Queue<Vector3>();
@@ -162,12 +171,6 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
         return neighbors;
     }
     
-    private bool CanMove(Vector3 direction)
-    {
-        Vector3 targetPosition = movePoint.position + direction;
-        return !Physics2D.OverlapPoint(targetPosition, boxLayer) && Physics2D.OverlapPoint(targetPosition, groundLayer);
-    }
-
     public void DestroyObject()
     {
         bloodSplash.SetActive(true);

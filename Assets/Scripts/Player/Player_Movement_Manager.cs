@@ -5,28 +5,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Player_Steps : MonoBehaviour
+public class Player_Movement_Manager : MonoBehaviour
 {
-    public static Player_Steps Instance { get; private set; }
+    public static Player_Movement_Manager Instance { get; private set; }
     
     [Header("Transforms")]
     public Transform player;
     public Transform enemy;
     
+    private Vector3 lastMoveDirection = Vector3.zero;
+    
     [Header("Stats")] 
     public bool isInvulnerable;
     public bool isStealth;
     
-    [Header("UI")] 
-    public int stepCount = 20;
-    public int playerLives = 2;
-    
-    public Image healthSlot;
-    public Sprite damagedHealthSlot;
-    
-    private int maxStepCount;
-    public TextMeshProUGUI stepCountText;
-    
+    [Header("Compounds")]
+    private Player_Stats stats;
     private List<IEnemy> enemies = new List<IEnemy>();
     
     private void Awake()
@@ -48,8 +42,7 @@ public class Player_Steps : MonoBehaviour
             player = Player_Movement.Instance.transform;
         }
         
-        maxStepCount = stepCount;
-        UpdateStepCountText();
+        stats = GetComponent<Player_Stats>();
     }
 
     private void Update()
@@ -90,7 +83,7 @@ public class Player_Steps : MonoBehaviour
     {
         if (!isStealth)
         {
-            IncrementMoveCount();
+            stats.UpdateMoveCount();
         
             foreach (var enemy in enemies)
             {
@@ -99,59 +92,12 @@ public class Player_Steps : MonoBehaviour
         }
     }
     
-    private void IncrementMoveCount()
+    public void AddSteps(int amount)
     {
-        if (isInvulnerable || playerLives == 0) return;
-        stepCount--;  
-        
-        if (stepCount <= 1)
-        {
-            if (!UI_Inventory.Instance.IsInventoryEmpty())
-            {
-                UI_Inventory.Instance.RemoveItem();
-            }
-        }
-        
-        if (stepCount <= 0 )
-        {
-            playerLives--;
-            
-            healthSlot.sprite = damagedHealthSlot;
-            
-            FOD_Agent agent = player.GetComponent<FOD_Agent>();
-            float radius = agent.sightRange;
-            agent.ChangeRadiusValue(radius - 8);
-            
-            if (playerLives <= 0)
-            {
-                ActivateCentipedeChase();
-                healthSlot.enabled = false;
-                stepCountText.text = "Light - 00, (00)";  
-                return;
-            }
-            
-            stepCount += maxStepCount / 2;
-            maxStepCount = stepCount;
-        }
-        
-        UpdateStepCountText();
+       stats.AddSteps(amount);
     }
 
-    public void AddSteps(int steps)
-    {
-        stepCount += steps;
-        UpdateStepCountText();
-    }
-    
-    private void UpdateStepCountText()
-    {
-        if (stepCountText != null)
-        {
-            stepCountText.text = $"Light - {stepCount:00}, ({maxStepCount:00})";  
-        }
-    }
-    
-    private void ActivateCentipedeChase()
+    public void ActivateCentipedeChase()
     {
         MusicManager.instance.PlayMusic(MusicManager.instance.chaseMusic);
         Audio_Manager.PlaySound(SoundType.Warning);
@@ -188,14 +134,23 @@ public class Player_Steps : MonoBehaviour
         }
     }
     
+    public void SetPlayerMoveDirection(Vector3 direction)
+    {
+        lastMoveDirection = direction;
+    }
+
+    public Vector3 GetLastMoveDirection()
+    {
+        return lastMoveDirection;
+    }
+    
     public void SetInvulnerability(bool state)
     {
         isInvulnerable = state;
 
         if (isInvulnerable)
         {
-            stepCount = maxStepCount;
-            UpdateStepCountText();
+            stats.SetMaxSteps();
         }
     }
 }

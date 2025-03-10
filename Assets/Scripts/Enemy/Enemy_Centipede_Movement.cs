@@ -29,7 +29,7 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
     
     void Start()
     {
-        Player_Steps.Instance.RegisterEnemy(this);
+        Player_Movement_Manager.Instance.RegisterEnemy(this);
         spriteMask.enabled = false; 
         
         if (movePoint != null)

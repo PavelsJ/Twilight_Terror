@@ -22,7 +22,7 @@ public class Entity_Bear_Trap : MonoBehaviour
             if (player != null)
             {
                 player.HitByTrap();
-                Player_Steps.Instance.ActivateSpiderChase();
+                Player_Movement_Manager.Instance.ActivateSpiderChase();
                 DeactivateTrap();
             }
         }

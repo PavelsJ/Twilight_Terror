@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class Box_Interaction : MonoBehaviour
 {
+    private Coroutine coroutine;
+    
     public float speed = 5f; 
     
     public LayerMask groundLayer;
     public LayerMask voidLayer;
     public LayerMask boxLayer;
+    
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     
     public bool TryPush(Vector3 direction)
     {
@@ -25,7 +34,7 @@ public class Box_Interaction : MonoBehaviour
             else if (Physics2D.OverlapPoint(targetPosition, voidLayer))
             {
                 Move(targetPosition);
-                ToggleBox();
+                StartCoroutine(ToggleBox());
                 return true;
             }
         }
@@ -35,7 +44,13 @@ public class Box_Interaction : MonoBehaviour
 
     private void Move(Vector3 newPosition)
     {
-        StartCoroutine(MoveSmoothly(newPosition));
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+
+        coroutine = StartCoroutine(MoveSmoothly(newPosition));
     }
 
     private IEnumerator MoveSmoothly(Vector3 targetPosition)
@@ -48,8 +63,16 @@ public class Box_Interaction : MonoBehaviour
         transform.position = targetPosition; 
     }
 
-    private void ToggleBox()
+    private IEnumerator ToggleBox()
     {
-        gameObject.SetActive(!gameObject.activeSelf);
+        GetComponent<Collider2D>().enabled = false;
+        
+        animator.SetTrigger("FadeOut");
+        
+        yield return new WaitUntil(() => 
+            animator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        
+        gameObject.SetActive(false);
     }
 }

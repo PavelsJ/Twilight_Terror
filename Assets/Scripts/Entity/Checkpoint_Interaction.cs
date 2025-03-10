@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class Checkpoint_Interaction : MonoBehaviour
 {
-    public float activationDistance = 1f;
     public float invulnerabilityDistance = 2f;
     
     private bool isActive = false;
-    
     private Transform player;
+    
     private FOD_Agent agent;
 
     private void Awake()
@@ -23,50 +22,31 @@ public class Checkpoint_Interaction : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        player = FindObjectOfType<Player_Movement>().transform;
+        if (other.CompareTag("Player") && !isActive)
+        {
+            player = other.transform;
+            ActivateCheckpoint();
+        }
     }
 
     private void Update()
     {
-        if (player != null)
+        if (isActive && player != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-            
-            if (!isActive)
-            {
-                if (distanceToPlayer <= activationDistance)
-                {
-                    ActivateCheckpoint();
-                }
-            }
-            else
-            {
-                if (distanceToPlayer <= invulnerabilityDistance)
-                {
-                    Player_Steps.Instance.SetInvulnerability(true);
-                }
-                else
-                {
-                    Player_Steps.Instance.SetInvulnerability(false);
-                }
-            }
+            Player_Movement_Manager.Instance.SetInvulnerability(distanceToPlayer <= invulnerabilityDistance);
         }
-       
-        
-        
     }
 
     private void ActivateCheckpoint()
     {
         isActive = true;
-        
         if (agent != null)
         {
             agent.enabled = true;
         }
-        
         Debug.Log("Checkpoint Activated!");
     }
 }

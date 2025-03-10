@@ -32,7 +32,7 @@ namespace FODMapping
         private RenderTexture fogTexture;
 
         [Header("Agent Dictionary")]
-        private readonly List<FOD_Agent> agents = new();
+        public List<FOD_Agent> agents = new();
         private const int maxAgentCount = 128;
         
         [Header("Buffers")]
@@ -60,11 +60,11 @@ namespace FODMapping
                 filterMode = FilterMode.Point 
             };
             
+            agentsBuffer = new ComputeBuffer(maxAgentCount, sizeof(float) * 3);
+            
             fogMaterial.SetTexture("_FogTexture", fogTexture);
             fogMaterial.SetColor("_FogColor", fogColor);
             fogMaterial.SetVector("_TextureSize", textureSize);
-
-            agentsBuffer = new ComputeBuffer(maxAgentCount, sizeof(float) * 3);
             
             isInitialized = true;
             
@@ -126,11 +126,9 @@ namespace FODMapping
             if(agents.Count < 1) return;
             
             agentData.Clear();
-
-            Vector2 objectPosition = transform.position;
-            Vector2 objectScale = transform.lossyScale;
-            Vector2 worldMin = objectPosition - (objectScale / 2);
-            Vector2 worldSize = objectScale;
+            
+            Vector2 worldMin = transform.position - (transform.lossyScale / 2);
+            Vector2 worldSize = transform.lossyScale;
 
             foreach (var agent in agents)
             {
@@ -204,7 +202,7 @@ namespace FODMapping
         }
         
         // Player End of a Room
-        public IEnumerator DisableWithDelay(float delay)
+        public IEnumerator DisableWithDelay()
         {
             if (removeAgentsCoroutine != null)
             {

@@ -28,6 +28,11 @@ public class Grid_Manager : MonoBehaviour
     private void Awake()
     {
         cinemachine = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        
+        foreach (var sector in midSectors)
+        {
+            sector.gameObject.SetActive(false);
+        }
     }
     
     void Start()
@@ -44,11 +49,6 @@ public class Grid_Manager : MonoBehaviour
             .Where(t => t != sectorPosParent)
             .ToList();
         
-        foreach (var sector in midSectors)
-        {
-            sector.gameObject.SetActive(false);
-        }
-
         firstPos = new Vector2(0, 0);
     }
 
@@ -115,7 +115,7 @@ public class Grid_Manager : MonoBehaviour
     public void ChangeGridState()
     {
         GameObject player = Player_Movement.Instance.gameObject;
-        Player_Steps.Instance.enemy.gameObject.SetActive(false);
+        Player_Movement_Manager.Instance.enemy.gameObject.SetActive(false);
         
         if (player != null)
         {

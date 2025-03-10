@@ -16,10 +16,12 @@ public class FOD_Agent : MonoBehaviour
 
     [Header("Light_Flickering")]
     public bool flickering = true;
-    public float flickeringSpeed = 6;
-    
+    public float flickeringSpeed = 4;
+
     private float baseRadius = 0;
     private float targetRadius;
+    private float currentRadius;
+
     private bool increasing = false;
     
     private FOD_Manager manager;
@@ -30,6 +32,7 @@ public class FOD_Agent : MonoBehaviour
     {
         manager = FindObjectOfType<FOD_Manager>(true);
         
+        currentRadius = sightRange;
         baseRadius = sightRange;
         targetRadius = baseRadius - 2.0f;
     }
@@ -87,10 +90,9 @@ public class FOD_Agent : MonoBehaviour
     private void ActivateAgent()
     {
         if (isActive) return;
-
+        
         isActive = true;
         manager.AddAgent(this);
-        
         StartAgent();
     }
     
@@ -101,20 +103,15 @@ public class FOD_Agent : MonoBehaviour
         EndAgent();
     }
     
-    private void StartAgent(float delay = 1f)
+    private void StartAgent(float duration = 1f)
     {
-        if (updateRoutine != null) StopCoroutine(updateRoutine);
-       
-        StartCoroutine(FadeIn(delay));
+        StopFlickering();
+        StartCoroutine(ChangeRadiusSmoothly(0, currentRadius, duration));
     }
 
     public void EndAgent(float delay = 0.7f)
     {
-        if (updateRoutine != null)
-        {
-            StopCoroutine(updateRoutine);
-            updateRoutine = null;
-        }
+        StopFlickering();
         
         if (gameObject.activeInHierarchy)
         {
@@ -122,37 +119,9 @@ public class FOD_Agent : MonoBehaviour
         }
     }
     
-    private IEnumerator FadeIn(float time)
+    private IEnumerator FadeOut(float duration)
     {
-        float duration = time;
-        float elapsedTime = 0.0f;
-        float startRadius = 0;
-
-        while (elapsedTime < duration)
-        {
-            sightRange = Mathf.Lerp(startRadius, baseRadius, elapsedTime / duration);
-            elapsedTime += Time.unscaledDeltaTime;
-            yield return null;
-        }
-
-        sightRange = baseRadius;
-        updateRoutine = StartCoroutine(UpdateAgent());
-    }
-    
-    private IEnumerator FadeOut(float time)
-    {
-        float duration = time;
-        float elapsedTime = 0.0f;
-        float startRadius = sightRange;
-        
-        while (elapsedTime < duration)
-        {
-            sightRange = Mathf.Lerp(startRadius, 0, elapsedTime / duration);
-            elapsedTime += Time.unscaledDeltaTime;
-            yield return null;
-        }
-        
-        sightRange = 0;
+        yield return ChangeRadiusSmoothly(sightRange, 0, duration);
 
         if (!gameObject.CompareTag("Player"))
         {
@@ -166,12 +135,22 @@ public class FOD_Agent : MonoBehaviour
             }
         }
     }
-
-    public void ChangeRadiusValue(float newRadius)
+    
+    private void StartFlickering()
     {
-        baseRadius = Mathf.Clamp(newRadius, 0.0f, 480.0f);
-        targetRadius = baseRadius - 2.0f;
-        flickeringSpeed += 2;
+        if (updateRoutine == null)
+        {
+            updateRoutine = StartCoroutine(UpdateAgent());
+        }
+    }
+
+    private void StopFlickering()
+    {
+        if (updateRoutine != null)
+        {
+            StopCoroutine(updateRoutine);
+            updateRoutine = null;
+        }
     }
 
     private IEnumerator UpdateAgent()
@@ -195,4 +174,43 @@ public class FOD_Agent : MonoBehaviour
             targetRadius = increasing ? baseRadius : baseRadius - 2.0f;
         }
     }
+    
+    public void ChangeRadiusValue(float newRadius)
+    {
+        currentRadius = newRadius;
+        
+        StopFlickering();
+        StartCoroutine(ChangeRadiusSmoothly(sightRange, currentRadius));
+        
+        flickeringSpeed += 6;
+    }
+    
+    public void SetMinRadiusValue()
+    {
+        StopFlickering();
+        StartCoroutine(ChangeRadiusSmoothly(sightRange, 22));
+    }
+
+    public void SetMaxRadiusValue()
+    {
+        StopFlickering();
+        StartCoroutine(ChangeRadiusSmoothly(sightRange, currentRadius));
+    }
+
+    private IEnumerator ChangeRadiusSmoothly(float start, float end, float duration = 1)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            sightRange = Mathf.Lerp(start, end, elapsedTime / duration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        sightRange = end;
+        baseRadius = end;
+        targetRadius = baseRadius - 2.0f;
+        
+        StartFlickering();
+    }
+
 }

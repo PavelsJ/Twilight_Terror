@@ -15,7 +15,7 @@ public class Enemy_Worm_Movement : MonoBehaviour, IEnemy
     
     private void Start()
     {
-        Player_Steps.Instance.RegisterEnemy(this);
+        Player_Movement_Manager.Instance.RegisterEnemy(this);
         
         gameObject.SetActive(false);
         transform.position = firstBurrow.position; 

@@ -46,14 +46,17 @@ public class Player_Movement : MonoBehaviour
             return instance;
         }
     }
-    
+
+    private void Awake()
+    {
+        agent = GetComponent<FOD_Agent>();
+        agent.enabled = false;
+    }
+
     void Start()
     {
         movePoint.parent = null;
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        agent = GetComponent<FOD_Agent>();
-        agent.enabled = false;
     }
 
     public void StartAgent(bool isActive)
@@ -112,11 +115,12 @@ public class Player_Movement : MonoBehaviour
         if (!isMoving)
         {
             isMoving = true;
-            Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+            Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
             trapTimer = trapCooldown;
             return;
         }
 
+        Player_Movement_Manager.Instance.SetPlayerMoveDirection(direction);
         TryMove(direction);
     }
 
@@ -132,13 +136,13 @@ public class Player_Movement : MonoBehaviour
             
             if (box != null && box.TryPush(direction))
             {
-                Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+                Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
                 Move(targetPosition);
             }
         }
         else if (CanMoveTo(targetPosition, groundLayer))
         {
-            Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+            Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
             
             Move(targetPosition);
         }
@@ -151,7 +155,7 @@ public class Player_Movement : MonoBehaviour
         }
         else if (CanMoveTo(targetPosition, iceLayer))
         {
-            Player_Steps.Instance.NotifyEnemiesOfPlayerMove();
+            Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
             
             MoveOnIce(targetPosition);
         }

@@ -16,7 +16,7 @@ public class Enemy_Worm_Burrow : MonoBehaviour, IEnemy
     {
         if (worm != null)
         {
-            Player_Steps.Instance.RegisterEnemy(this);
+            Player_Movement_Manager.Instance.RegisterEnemy(this);
             
             worm.SetActive(false);
             
