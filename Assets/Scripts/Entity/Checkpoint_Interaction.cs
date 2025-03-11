@@ -8,6 +8,7 @@ public class Checkpoint_Interaction : MonoBehaviour
     public float invulnerabilityDistance = 2f;
     
     private bool isActive = false;
+    
     private Transform player;
     
     private FOD_Agent agent;
@@ -36,7 +37,9 @@ public class Checkpoint_Interaction : MonoBehaviour
         if (isActive && player != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-            Player_Movement_Manager.Instance.SetInvulnerability(distanceToPlayer <= invulnerabilityDistance);
+            bool isWithinRange = distanceToPlayer <= invulnerabilityDistance;
+
+            Player_Movement_Manager.Instance.SetInvulnerability(isWithinRange);
         }
     }
 

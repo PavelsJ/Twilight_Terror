@@ -71,7 +71,7 @@ public class Player_Stats : MonoBehaviour
             {
                 Player_Movement_Manager.Instance.ActivateCentipedeChase();
                 healthSlot.enabled = false;
-                stepCountText.text = "Light - 00, (00)";  
+                stepCountText.text = "Hope - 00, (00)";  
                 return;
             }
             
@@ -86,7 +86,7 @@ public class Player_Stats : MonoBehaviour
     {
         if (stepCountText != null)
         {
-            stepCountText.text = $"Light - {stepCount:00}, ({maxStepCount:00})";  
+            stepCountText.text = $"Hope - {stepCount:00}, ({maxStepCount:00})";  
         }
     }
 }
