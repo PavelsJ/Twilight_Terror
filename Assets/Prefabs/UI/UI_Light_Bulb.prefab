@@ -88,4 +88,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8b37c9a9ab5a34eb0b0967fda46d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extraSteps: 10
+  extraSteps: 5

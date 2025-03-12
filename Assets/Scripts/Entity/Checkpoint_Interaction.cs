@@ -8,6 +8,7 @@ public class Checkpoint_Interaction : MonoBehaviour
     public float invulnerabilityDistance = 2f;
     
     private bool isActive = false;
+    private bool isInvincible = false;
     
     private Transform player;
     
@@ -38,8 +39,12 @@ public class Checkpoint_Interaction : MonoBehaviour
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
             bool isWithinRange = distanceToPlayer <= invulnerabilityDistance;
-
-            Player_Movement_Manager.Instance.SetInvulnerability(isWithinRange);
+            
+            if (isWithinRange != isInvincible)
+            {
+                isInvincible = isWithinRange;
+                Player_Movement_Manager.Instance.SetInvulnerability(isInvincible);
+            }
         }
     }
 

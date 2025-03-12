@@ -17,7 +17,7 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     public Transform player;
     
     [Header("Layer Settings")] 
-    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     public LayerMask boxLayer;
     
     [Header("Compounds")]
@@ -153,7 +153,7 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
         foreach (Vector3 move in possibleMoves)
         {
             Vector3 targetPosition = position + move;
-            if (!Physics2D.OverlapPoint(targetPosition, boxLayer) && Physics2D.OverlapPoint(targetPosition, groundLayer))
+            if (!Physics2D.OverlapPoint(targetPosition, boxLayer) && !Physics2D.OverlapPoint(targetPosition, wallLayer))
             {
                 neighbors.Add(targetPosition);
             }
@@ -165,7 +165,7 @@ public class Enemy_Spider_Movement : MonoBehaviour, IEnemy, IInteractable
     private bool CanMove(Vector3 direction)
     {
         Vector3 targetPosition = movePoint.position + direction;
-        return !Physics2D.OverlapPoint(targetPosition, boxLayer) && Physics2D.OverlapPoint(targetPosition, groundLayer);
+        return !Physics2D.OverlapPoint(targetPosition, boxLayer) && !Physics2D.OverlapPoint(targetPosition, wallLayer);
     }
 
     public void DestroyObject()

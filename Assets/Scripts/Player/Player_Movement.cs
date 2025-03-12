@@ -22,7 +22,7 @@ public class Player_Movement : MonoBehaviour
     public Transform arrowPoint;
 
     [Header("Layer Settings")] 
-    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     public LayerMask voidLayer;  
     public LayerMask iceLayer;
     public LayerMask boxLayer;
@@ -127,7 +127,6 @@ public class Player_Movement : MonoBehaviour
     private void TryMove(Vector3 direction)
     {
         Vector3 targetPosition = movePoint.position + direction;
-        
         Collider2D boxHit = Physics2D.OverlapPoint(targetPosition, boxLayer);
             
         if (boxHit)
@@ -139,12 +138,6 @@ public class Player_Movement : MonoBehaviour
                 Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
                 Move(targetPosition);
             }
-        }
-        else if (CanMoveTo(targetPosition, groundLayer))
-        {
-            Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
-            
-            Move(targetPosition);
         }
         else if (CanMoveTo(targetPosition, voidLayer))
         {
@@ -158,6 +151,12 @@ public class Player_Movement : MonoBehaviour
             Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
             
             MoveOnIce(targetPosition);
+        }
+        else if (!CanMoveTo(targetPosition, wallLayer))
+        {
+            Player_Movement_Manager.Instance.NotifyEnemiesOfPlayerMove();
+            
+            Move(targetPosition);
         }
     }
 
@@ -176,8 +175,7 @@ public class Player_Movement : MonoBehaviour
             
             if (!Physics2D.OverlapPoint(nextPosition, iceLayer))
             {
-                if (Physics2D.OverlapPoint(nextPosition, groundLayer) 
-                    || Physics2D.OverlapPoint(nextPosition, voidLayer))
+                if (!Physics2D.OverlapPoint(nextPosition, wallLayer))
                 {
                     targetPosition = nextPosition;
                 }

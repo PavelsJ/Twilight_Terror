@@ -8,7 +8,7 @@ public class Box_Interaction : MonoBehaviour
     
     public float speed = 5f; 
     
-    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     public LayerMask voidLayer;
     public LayerMask boxLayer;
     
@@ -25,7 +25,7 @@ public class Box_Interaction : MonoBehaviour
         {
             Vector3 targetPosition = transform.position + direction;
         
-            if (Physics2D.OverlapPoint(targetPosition, groundLayer) &&
+            if (!Physics2D.OverlapPoint(targetPosition, wallLayer) &&
                 !Physics2D.OverlapPoint(targetPosition, boxLayer))
             {
                 Move(targetPosition);

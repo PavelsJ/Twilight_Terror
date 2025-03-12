@@ -8,7 +8,9 @@ public class Light_Switch_Interaction : MonoBehaviour
 {
     public bool isActive = false;
     public Sprite sprite;
+    
     public Bed_Interaction bedInteraction;
+    public Checkpoint_Interaction[] checkpointInteractions;
     
     private FOD_Manager manager;
     private Transform player;
@@ -38,6 +40,14 @@ public class Light_Switch_Interaction : MonoBehaviour
         {
             Debug.Log("FOD_Manager is empty");
             return;
+        }
+
+        if (checkpointInteractions.Length > 0)
+        {
+            foreach (Checkpoint_Interaction checkpoint in checkpointInteractions)
+            {
+                checkpoint.enabled = false;
+            }
         }
         
         if (bedInteraction != null)

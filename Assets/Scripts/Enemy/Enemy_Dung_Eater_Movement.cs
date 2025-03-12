@@ -16,7 +16,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
     public Transform movePoint;
     
     [Header("Layer Settings")] 
-    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     public LayerMask boxLayer;
     
     [Header("Compounds")]
@@ -127,7 +127,7 @@ public class Enemy_Dung_Eater_Movement : MonoBehaviour, IEnemy, IInteractable
 
         if (!Physics2D.OverlapPoint(targetPosition, boxLayer))
         {
-            return Physics2D.OverlapPoint(targetPosition, groundLayer);
+            return !Physics2D.OverlapPoint(targetPosition, wallLayer);
         }
 
         return false;

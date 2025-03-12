@@ -129,7 +129,7 @@ SpriteRenderer:
   m_SortingLayerID: 1535477347
   m_SortingLayer: 2
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: b919c7d08ca301f4bbf902283ddb040d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f5fb1b2a14970b42909aedb48af2ce9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -203,9 +203,9 @@ MonoBehaviour:
   isChasingPlayer: 0
   movePoint: {fileID: 159853900327375097}
   player: {fileID: 0}
-  groundLayer:
+  wallLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 2048
   boxLayer:
     serializedVersion: 2
     m_Bits: 64

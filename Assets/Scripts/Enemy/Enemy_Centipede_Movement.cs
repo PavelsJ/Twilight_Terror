@@ -16,7 +16,7 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
     public Transform movePoint;
     
     [Header("Layer Settings")] 
-    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     
     [Header("Movement Settings")]
     public float detectionRange = 2f;
@@ -143,7 +143,7 @@ public class Enemy_Centipede_Movement : MonoBehaviour, IEnemy
         List<Vector3> neighbors = new List<Vector3>();
         foreach (Vector3 move in possibleMoves)
         {
-            if (Physics2D.OverlapPoint(move, groundLayer)) 
+            if (!Physics2D.OverlapPoint(move, wallLayer)) 
             {
                 neighbors.Add(move);
             }

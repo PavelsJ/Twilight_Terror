@@ -101,9 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  groundLayer:
+  wallLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2048
   voidLayer:
     serializedVersion: 2
     m_Bits: 128
