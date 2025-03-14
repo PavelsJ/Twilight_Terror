@@ -134,12 +134,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstDirection: {x: 0, y: 1}
   speed: 5
-  isMoving: 0
+  isMoving: 1
   isDead: 0
   movePoint: {fileID: 5689023867204285064}
-  groundLayer:
+  wallLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2048
   boxLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
-  deactivateOnEnd: 1
+  deactivateOnEnd: 0
   sightRange: 16
   sightTransparency: 0.8
   flickering: 1
