@@ -3158,7 +3158,13 @@ Transform:
   m_PrefabInstance: {fileID: 644643492}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 --- !u!1 &655115836
 GameObject:
   m_ObjectHideFlags: 0
@@ -6439,7 +6445,13 @@ Transform:
   m_PrefabInstance: {fileID: 1605819479}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 --- !u!1001 &1055676154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13804,7 +13816,13 @@ PrefabInstance:
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a0719172fddacb4393966d3049a821d, type: 3}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 --- !u!1001 &1945900246
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13867,6 +13885,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2091895768579940728, guid: 82e7d9d76e8ba2746bfa3d86d5a5bb07, type: 3}
   m_PrefabInstance: {fileID: 1945900246}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 --- !u!1001 &1959232722
 PrefabInstance:
@@ -14631,10 +14655,24 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     x: 0.284375
     y: 0
     width: 0.20833334
     height: 0.41203701
+=======
+    x: 0.20677084
+    y: 0
+    width: 0.20833334
+    height: 0.26203704
+>>>>>>> Stashed changes
+=======
+    x: 0.20677084
+    y: 0
+    width: 0.20833334
+    height: 0.26203704
+>>>>>>> Stashed changes
 =======
     x: 0.20677084
     y: 0
@@ -14646,7 +14684,15 @@ Camera:
   field of view: 60
   orthographic: 1
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   orthographic size: 3.4765625
+=======
+  orthographic size: 4.421875
+>>>>>>> Stashed changes
+=======
+  orthographic size: 4.421875
+>>>>>>> Stashed changes
 =======
   orthographic size: 4.421875
 >>>>>>> Stashed changes
