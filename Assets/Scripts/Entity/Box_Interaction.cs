@@ -24,17 +24,17 @@ public class Box_Interaction : MonoBehaviour
         if (gameObject.activeSelf)
         {
             Vector3 targetPosition = transform.position + direction;
-            
-            if (Physics2D.OverlapPoint(targetPosition, voidLayer))
-            {
-                Move(targetPosition);
-                StartCoroutine(ToggleBox());
-                return true;
-            }
-            else if (!Physics2D.OverlapPoint(targetPosition, wallLayer) &&
+        
+            if (!Physics2D.OverlapPoint(targetPosition, wallLayer) &&
                 !Physics2D.OverlapPoint(targetPosition, boxLayer))
             {
                 Move(targetPosition);
+                return true;
+            }
+            else if (Physics2D.OverlapPoint(targetPosition, voidLayer))
+            {
+                Move(targetPosition);
+                StartCoroutine(ToggleBox());
                 return true;
             }
         }
